@@ -8,14 +8,14 @@ def playerInput(): #Function that sets markers for both players
     marker=''
     while not (marker == 'X' or marker == 'O'):
         marker=input("Please choose O or X to start game! ").upper()
-        if marker=='O':
-            clear()
-            print("\nOkay!Now we can start the game,Player1 is 'O' and Player2 is 'X'")
-            return ('O','X')
-        else:
-            clear()
-            print("\nOkay!Now we can start the game,Player1 is 'X' and Player2 is 'O'\n")
-            return ('X','O')
+    if marker=='O':
+        clear()
+        print("\nOkay!Now we can start the game,Player1 is 'O' and Player2 is 'X'")
+        return ('O','X')
+    else:
+        clear()
+        print("\nOkay!Now we can start the game,Player1 is 'X' and Player2 is 'O'\n")
+        return ('X','O')
 
 def displayBoard(board): #Function that display current board status every time something chanegd
     print('\n')
@@ -32,13 +32,13 @@ def changePosition(marker,board,position): #Function that sets marker of player 
         askForPosition(marker)
 
 def askForPosition(marker): #Function that calss changePosition() function ,done for aesthetics
-    position=int(input('\nPlease choose position(1-9) player '+marker+' '))
+    position=int(input("\nPlease choose position (1-9) player '"+marker+"' "))
     changePosition(marker,board,position)
     clear()
 
 def replay(): #Function that asks players if they wish to play again if no exit program
-    print('Game Over')
-    choice=input("Do you want to play again? Write 'Y' if you do and 'N' if you don't ").upper()
+    print('\nGame Over')
+    choice=input("\nDo you want to play again? Write 'Y' if you do and 'N' if you don't ").upper()
     if choice=='Y':
         global board
         board=['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
@@ -65,26 +65,36 @@ def fullBoard(board): #Function that checks if board is full => draw
     else:
         return True
 
+def chooseFirst():
+    if random.randint(0,1)==1:
+        return 'Player 1'
+    else:
+        return 'Player 2'
+
 def startGame(): #Main function
     player1,player2=playerInput()
     displayBoard(board)
+    turn=chooseFirst()
+    print('\n'+turn+' will go first!')
     while True:
-        nextTurn(board,player1)
-        if checkWin(player1): #check fo win
-            print('\nPlayer 1 won!')
-            break
-        elif fullBoard(board): #check for tie
-            print("\nIt's a tie!")
-            break
-        nextTurn(board,player2)
-        if checkWin(player2):
-            print('\nPlayer 2 won!')
-            break
-        elif fullBoard(board):
-            print("\nIt's a tie!")
-            break
+        if turn =='Player 1':
+            nextTurn(board,player1)
+            if checkWin(player1): #check fo win
+                print('\nPlayer 1 won!')
+                break
+            elif fullBoard(board): #check for tie
+                print("\nIt's a tie!")
+                break
+            turn='Player 2'
+        else:
+            nextTurn(board,player2)
+            if checkWin(player2):
+                print('\nPlayer 2 won!')
+                break
+            elif fullBoard(board):
+                print("\nIt's a tie!")
+                break
+            turn='Player 1'
     replay()
-
 ################################################################################
 startGame()
-
