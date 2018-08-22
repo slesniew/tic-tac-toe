@@ -37,7 +37,6 @@ def askForPosition(marker): #Function that calss changePosition() function ,done
     clear()
 
 def replay(): #Function that asks players if they wish to play again if no exit program
-    clear()
     print('Game Over')
     choice=input("Do you want to play again? Write 'Y' if you do and 'N' if you don't ").upper()
     if choice=='Y':
@@ -71,12 +70,21 @@ def startGame(): #Main function
     displayBoard(board)
     while True:
         nextTurn(board,player1)
-        if checkWin(player1) or fullBoard(board):
+        if checkWin(player1): #check fo win
+            print('\nPlayer 1 won!')
+            break
+        elif fullBoard(board): #check for tie
+            print("\nIt's a tie!")
             break
         nextTurn(board,player2)
-        if checkWin(player2) or fullBoard(board):
+        if checkWin(player2):
+            print('\nPlayer 2 won!')
+            break
+        elif fullBoard(board):
+            print("\nIt's a tie!")
             break
     replay()
 
 ################################################################################
 startGame()
+
